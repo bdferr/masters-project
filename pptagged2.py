@@ -1,7 +1,7 @@
-#I am not sure I actually used this script in the end. In any case it deals with the second half
-#of the non-gold-standard tagged corpus. It is meant to produce a tagged and untagged version
+#This script deals with the second half of the non-gold-standard tagged corpus. 
+#It is meant to produce a tagged and untagged version
 #of each file for further processing by stripping everything but the tokens and tags for the tagged version
-#and everything but the token for the untagged version.
+#and everything but the token for the untagged version. This was the format needed by the tagger.
 import os
 import re
 #Here I access all of the file names in the directory for the second half:
