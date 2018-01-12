@@ -1,3 +1,5 @@
+#I did not end up using this file, as I ran the tagger in a Linux VirtualBox
+#and not in Python, but this may give an idea of what the tagger does.
 from __future__ import print_function
 import nltk
 import re
