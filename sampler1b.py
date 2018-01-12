@@ -7,6 +7,8 @@ import random
 import re
 import os
 import nltk
+
+#Here I get the directories and lists of file names I will need later in the script:
 firsthalfdir = 'C:/users/brendan/documents/library and information science/masters_project/germanc-corpus/first_half_col/processed'
 firsthalf = next(os.walk(firsthalfdir))[2]
 destinationdira = 'C:/users/brendan/documents/library and information science/masters_project/germanc-corpus/first_half_col/more_processed'
@@ -15,6 +17,8 @@ firsthalfgsdir = 'C:/users/brendan/documents/library and information science/mas
 firsthalfgspath = 'C:/users/brendan/documents/library and information science/masters_project/gold-standard/first_half_untagged/firsthalfgsuntagged.txt'
 firsthalfgs = next(os.walk(firsthalfgsdir))[2]
 
+#If I run this script more than once, I need to make sure that the results from the earlier run are not included
+#in the current processing. Otherwise I would get files full of repeated text which would get larger each time:
 if "fhgsuntagged.txt" in firsthalfgs:
     firsthalfgs.remove("fhgsuntagged.txt")
 if "fhgsuntaggednames.txt" in firsthalfgs:
