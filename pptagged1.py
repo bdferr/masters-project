@@ -1,7 +1,7 @@
-#I am not sure I actually used this script in the end. In any case it deals with the first half
-#of the non-gold-standard tagged corpus. It is meant to produce a tagged and untagged version
+#This script deals with the first half of the non-gold-standard tagged corpus. 
+#It is meant to produce a tagged and untagged version
 #of each file for further processing by stripping everything but the tokens and tags for the tagged version
-#and everything but the token for the untagged version.
+#and everything but the token for the untagged version. This was the format needed by the tagger.
 import os
 import re
 #here I access all of the file names in the directory for the first half of the non-gold-standard corpus:
@@ -14,7 +14,8 @@ for ofilename in firsthalf:
     u = ''
     #This excludes already completed concatenated files if they are already in that folder;
     #this means I can run the script more than once without the result getting larger
-    #with more duplicates of the same content each time:
+    #with more duplicates of the same content each time. This might not have been necessary in this context
+    #but I am leaving it here anyway to show my thinking at the time:
     if ofilename != 'firsthalftagged.txt' and ofilename != 'firsthalfuntagged.txt':
         filename = mydir + "/" + ofilename
         print("processing %s \n" % filename)
