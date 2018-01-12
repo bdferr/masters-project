@@ -1,3 +1,5 @@
+#I believe this script was ultimately replaced with gs_further_processor1.py,
+#which includes essentially the same functionality along with others.
 #In this script I check every file in the first half of the gold standard corpus, untagged,
 #to add a blank row after the end of every sentence.
 #This was necessary for the tagger.
