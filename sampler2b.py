@@ -1,7 +1,14 @@
+#This script divides the second half of the non-gold standard corpus into folds
+#of progressively larger sizes to be used as training sets.
+#It also creates a test set consisting of untagged versions of the files in the gold standard for the second half.
+#This is the script which I ultimately used for the final processing before the tagging,
+#in contrast with the earlier and more convoluted sampler2.py which I abandoned.
 import random
 import re
 import os
 import nltk
+
+#Here I get the directories and lists of file names I will need later in the script:
 shdir = 'C:/users/brendan/documents/library and information science/masters_project/germanc-corpus/second_half_col/processed'
 secondhalf = next(os.walk(shdir))[2]
 destinationdira = 'C:/users/brendan/documents/library and information science/masters_project/germanc-corpus/second_half_col/more_processed'
@@ -10,6 +17,8 @@ shgsdir = 'C:/users/brendan/documents/library and information science/masters_pr
 shgspath = 'C:/users/brendan/documents/library and information science/masters_project/gold-standard/second_half_untagged/shgsuntagged.txt'
 shgs = next(os.walk(shgsdir))[2]
 
+#If I run this script more than once, I need to make sure that the results from the earlier run are not included
+#in the current processing. Otherwise I would get files full of repeated text which would get larger each time:
 if "shgsuntagged.txt" in shgs:
     shgs.remove("shgsuntagged.txt")
 if "shgsuntaggednames.txt" in shgs:
@@ -19,13 +28,13 @@ if "secondhalftagged.txt" in secondhalf:
 if "secondhalfuntagged.txt" in secondhalf:
     secondhalf.remove("secondhalfuntagged.txt")
 
-##The total second half has 159 files, and the gold standard 14, has so I need samples of the following sizes from the remaining set:
+#The total second half has 159 files, and the gold standard 14, has so I need samples of the following sizes from the remaining set:
 sizes = [18, 36, 54, 72, 90, 108, 126, 144]
-##now I am confused as to how to tag an entire file with nltk, although I see tagging a sentence (tag(self, data))
-##and tagging a list of sentences (tagdata(self, data)) here: http://www.nltk.org/_modules/nltk/tag/tnt.html 
+#now I am confused as to how to tag an entire file with nltk, although I see tagging a sentence (tag(self, data))
+#and tagging a list of sentences (tagdata(self, data)) here: http://www.nltk.org/_modules/nltk/tag/tnt.html 
 
-##here I try to create the gold standard test set, which needs to consist of untagged versions
-##of the files in the gold standard so that its accuracy can be measured:
+#here I try to create the gold standard test set, which needs to consist of untagged versions
+#of the files in the gold standard so that its accuracy can be measured:
 testset = ''
 n = 1
 filenamess = ''
@@ -41,8 +50,8 @@ while shgs != []:
             secondhalf.remove(choice)
         if choice in shgs:
             shgs.remove(choice)
-        ##here I make sure that the tagged version of the file is also removed from the set to be drawn from for testing,
-        ##so that no file used for the test set is also used for any training fold:
+        #here I make sure that the tagged version of the file is also removed from the set to be drawn from for testing,
+        #so that no file used for the test set is also used for any training fold:
         splitchoice = choice.split("_")
         shortchoice = splitchoice[:5]
         shortchoice = "_".join(shortchoice)
@@ -67,7 +76,7 @@ with open(namespath, 'w') as namesfile:
     print "New training set file names written to %s" % namespath
     namesfile.close()
 
-##here I create the training folds and their filename lists:
+#here I create the training folds and their filename lists:
 foldnum = 1
 for x in sizes:
     i = 1
@@ -79,13 +88,13 @@ for x in sizes:
         choice = random.choice(secondhalf)
         path = shdir + "/" + choice
         if re.search("^.*_tagged.txt$", choice) and choice not in filenamesl and choice not in shgs:
-            ##I remove the corresponding tagged file from the possibility of being selected 
-            ##for training in the cross-validation, though this might be superfluous:
+            #I remove the corresponding tagged file from the possibility of being selected 
+            #for training in the cross-validation, though this might be superfluous:
             filenamesl.append(choice)
             filetext = open(path).read()
             foldtext += filetext
             i += 1
-    ##here I create files listing the file names in each test fold:
+    #here I create files listing the file names in each test fold:
     namespath = destinationdirb + "/fold" + str(foldnum) + "filenames.txt"
     with open(namespath, 'w') as namesfile:
         for row in filenamesl:
@@ -93,7 +102,7 @@ for x in sizes:
             namesfile.write("\n")
         print "File names for fold", foldnum, "written to %s" % namespath
         namesfile.close()
-    ##here I write the text of every file in the fold to a single file:
+    #here I write the text of every file in the fold to a single file:
     textpath = destinationdira + "/shfold" + str(foldnum) + "text.txt"
     with open(textpath, 'w') as ftfile:
         ftfile.write(foldtext)

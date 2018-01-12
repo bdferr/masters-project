@@ -1,3 +1,6 @@
+#This is an earlier and more convoluted version of the script I ultimately ended up using, sampler1b.py.
+#I am leaving it here to show my thinking at the time.
+#It refers to cross-validation, which I ultimately could not do as discussed on page 61 of the master's paper.
 import random
 import re
 import os
